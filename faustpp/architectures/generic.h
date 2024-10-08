@@ -180,7 +180,7 @@ bool parameter_is_logarithmic(unsigned index) {
     }
 }
 
-float get_parameter({{class_name}}* dsp, unsigned index) {
+FAUSTFLOAT get_parameter({{class_name}}* dsp, unsigned index) {
     switch (index) {
     {% for w in active + passive %}
     case {{loop.index0}}:
@@ -192,7 +192,7 @@ float get_parameter({{class_name}}* dsp, unsigned index) {
     }
 }
 
-void set_parameter({{class_name}}* dsp, unsigned index, float value) {
+void set_parameter({{class_name}}* dsp, unsigned index, FAUSTFLOAT value) {
     switch (index) {
     {% for w in active %}
     case {{loop.index0}}:
@@ -207,12 +207,12 @@ void set_parameter({{class_name}}* dsp, unsigned index, float value) {
 }
 
 {% for w in active + passive %}
-float get_{{w.meta.symbol}}({{class_name}}* dsp) {
+FAUSTFLOAT get_{{w.meta.symbol}}({{class_name}}* dsp) {
     return dsp->{{w.varname}};
 }
 {% endfor %}
 {% for w in active %}
-void set_{{w.meta.symbol}}({{class_name}}* dsp, float value) {
+void set_{{w.meta.symbol}}({{class_name}}* dsp, FAUSTFLOAT value) {
     dsp->{{w.varname}} = value;
 }
 {% endfor %}
