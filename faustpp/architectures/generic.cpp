@@ -74,7 +74,26 @@ typedef {{Identifier}}::BasicDsp dsp;
 #define FAUSTPP_END_NAMESPACE }
 
 {% block ImplementationFaustCode %}
+#if defined(__GNUC__)
+#   pragma GCC diagnostic push
+#   pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+
+#ifndef FAUSTPP_PRIVATE
+#   define FAUSTPP_PRIVATE private
+#endif
+#ifndef FAUSTPP_PROTECTED
+#   define FAUSTPP_PROTECTED protected
+#endif
+#ifndef FAUSTPP_VIRTUAL
+#   define FAUSTPP_VIRTUAL virtual
+#endif
+
 {{class_code}}
+
+#if defined(__GNUC__)
+#   pragma GCC diagnostic pop
+#endif
 {% endblock %}
 
 //------------------------------------------------------------------------------
@@ -131,6 +150,18 @@ void {{Identifier}}::process(
 {% endblock %}
 }
 
+int {{Identifier}}::parameter_group(unsigned index) noexcept
+{
+    switch (index) {
+    {% for w in active + passive %}{% if w.group != -1 %}
+    case {{loop.index0}}:
+        return {{w.group}};
+    {% endif %}{% endfor %}
+    default:
+        return -1;
+    }
+}
+
 const char *{{Identifier}}::parameter_label(unsigned index) noexcept
 {
     switch (index) {
@@ -148,10 +179,23 @@ const char *{{Identifier}}::parameter_short_label(unsigned index) noexcept
     switch (index) {
     {% for w in active + passive %}
     case {{loop.index0}}:
-        return {{cstr(w.meta.abbrev|default(""))}};
+        return {{cstr(w.meta.abbrev|default(w.label)|truncate(16, true))}};
     {% endfor %}
     default:
         return 0;
+    }
+}
+
+const char *{{Identifier}}::parameter_style(unsigned index) noexcept
+{
+    switch (index) {
+    {% for w in active + passive %}{% if w.meta.style is defined and (w.meta.style.startswith("menu{") or w.meta.style.startswith("radio{")) %}
+    case {{loop.index0}}: {
+        return {{cstr(w.meta.style)}};
+    }
+    {% endif %}{% endfor %}
+    default:
+        return "knob";
     }
 }
 
@@ -160,7 +204,7 @@ const char *{{Identifier}}::parameter_symbol(unsigned index) noexcept
     switch (index) {
     {% for w in active + passive %}
     case {{loop.index0}}:
-        return {{cstr(cid(w.meta.symbol|default(w.label)))}};
+        return {{cstr(w.meta.symbol)}};
     {% endfor %}
     default:
         return 0;
@@ -211,6 +255,18 @@ bool {{Identifier}}::parameter_is_boolean(unsigned index) noexcept
     switch (index) {
     {% for w in active + passive %}{% if w.type in ["button", "checkbox"] or
                                          w.meta.boolean is defined %}
+    case {{loop.index0}}:
+        return true;
+    {% endif %}{% endfor %}
+    default:
+        return false;
+    }
+}
+
+bool {{Identifier}}::parameter_is_enum(unsigned index) noexcept
+{
+    switch (index) {
+    {% for w in active + passive %}{% if w.meta.style is defined and (w.meta.style.startswith("menu{") or w.meta.style.startswith("radio{")) %}
     case {{loop.index0}}:
         return true;
     {% endif %}{% endfor %}
@@ -276,14 +332,14 @@ void {{Identifier}}::set_parameter(unsigned index, float value) noexcept
 }
 
 {% for w in active + passive %}
-float {{Identifier}}::get_{{cid(w.meta.symbol|default(w.label))}}() const noexcept
+float {{Identifier}}::get_{{w.meta.symbol}}() const noexcept
 {
     {{class_name}} &dsp = static_cast<{{class_name}} &>(*fDsp);
     return dsp.{{w.var}};
 }
 {% endfor %}
 {% for w in active %}
-void {{Identifier}}::set_{{cid(w.meta.symbol|default(w.label))}}(float value) noexcept
+void {{Identifier}}::set_{{w.meta.symbol}}(float value) noexcept
 {
     {{class_name}} &dsp = static_cast<{{class_name}} &>(*fDsp);
     dsp.{{w.var}} = value;

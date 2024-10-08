@@ -5,14 +5,18 @@
 #
 # SPDX-License-Identifier: BSL-1.0
 
-from faustpp.metadata import Metadata, WTYPE_Active, WTYPE_Passive
-from faustpp.utility import cstrlit, mangle
-from typing import Any, Optional, TextIO, List, Dict, Tuple
-from jinja2 import Environment, FileSystemLoader
 import os
+from typing import Any, Optional, TextIO, List, Dict, Tuple
+
+from jinja2 import Environment, FileSystemLoader
+
+from .metadata import Metadata, WidgetActive, Widget, WidgetType, WidgetScale
+from .utility import cstrlit, mangle
+
 
 class RenderFailure(Exception):
     pass
+
 
 def render_metadata(out: TextIO, md: Metadata, tmplfile: str, defines: Dict[str, str]):
     tmpldir: str = os.path.dirname(tmplfile)
@@ -23,66 +27,67 @@ def render_metadata(out: TextIO, md: Metadata, tmplfile: str, defines: Dict[str,
 
     out.write(template.render(context))
 
+
 def make_global_environment(md: Metadata, defines: Dict[str, str]) -> Dict[str, Any]:
     context: Dict[str, Any] = {}
 
-    context["class_code"] = md.class_code;
+    context["class_code"] = md.class_code
+    context["source"] = md.source
+    context["structs"] = md.structs.copy()
 
-    context["name"] = md.name;
-    context["author"] = md.author;
-    context["copyright"] = md.copyright;
-    context["license"] = md.license;
-    context["version"] = md.version;
-    context["class_name"] = md.classname;
-    context["file_name"] = md.filename;
-    context["inputs"] = int(md.inputs);
-    context["outputs"] = int(md.outputs);
-
-    meta: Tuple[str, str]
-
-    file_meta: Dict[str, Any] = {}
-    for meta in md.metadata:
-        file_meta[meta[0]] = parse_value_string(meta[1])
-    context["meta"] = file_meta
+    context["name"] = md.name
+    context["author"] = md.author
+    context["copyright"] = md.copyright
+    context["license"] = md.license
+    context["version"] = md.version
+    context["faust_version"] = md.faust_version
+    context["class_name"] = md.classname
+    context["file_name"] = md.filename
+    context["inputs"] = int(md.inputs)
+    context["outputs"] = int(md.outputs)
+    context["meta"] = md.metadata.copy()
 
     wtype: int
-    for wtype in (WTYPE_Active, WTYPE_Passive):
-        widget_list: List[Metadata.Widget] = []
+    for wtype in (WidgetActive.Active, WidgetActive.Passive):
+        widget_list: List[Widget] = []
         widget_list_obj: List[Dict[str, Any]] = []
 
-        if wtype == WTYPE_Active:
+        if wtype == WidgetActive.Active:
             widget_list = md.active
-        elif wtype == WTYPE_Passive:
+        elif wtype == WidgetActive.Passive:
             widget_list = md.passive
 
         i: int
         for i in range(len(widget_list)):
-            widget: Metadata.Widget = widget_list[i]
+            widget: Widget = widget_list[i]
 
             widget_obj: Dict[str, Any] = {}
 
-            widget_obj["type"] = widget.typestring;
-            widget_obj["id"] = widget.id;
-            widget_obj["label"] = widget.label;
-            widget_obj["var"] = widget.var;
-            widget_obj["init"] = widget.init;
-            widget_obj["min"] = widget.min;
-            widget_obj["max"] = widget.max;
-            widget_obj["step"] = widget.step;
-            widget_obj["unit"] = widget.unit;
-            widget_obj["scale"] = widget.scalestring;
-            widget_obj["tooltip"] = widget.tooltip;
-
-            widget_meta: Dict[str, Any] = {}
-            for meta in widget.metadata:
-                widget_meta[meta[0]] = parse_value_string(meta[1])
-            widget_obj["meta"] = widget_meta
+            widget_obj["type"] = widget.type.value
+            widget_obj["id"] = widget.id
+            widget_obj["label"] = widget.label
+            widget_obj["symbol"] = widget.symbol
+            widget_obj["varname"] = widget.varname
+            widget_obj["group"] = widget.group
+            widget_obj["order"] = widget.order
+            widget_obj["init"] = widget.init
+            widget_obj["min"] = widget.min
+            widget_obj["max"] = widget.max
+            widget_obj["step"] = widget.step
+            widget_obj["hidden"] = widget.hidden
+            widget_obj["scale"] = widget.scale.value
+            widget_obj["screencolor"] = widget.screencolor
+            widget_obj["style"] = widget.style.value
+            widget_obj["tooltip"] = widget.tooltip
+            widget_obj["unit"] = widget.unit
+            widget_obj["entries"] = widget.entries
+            widget_obj["meta"] = widget.metadata.copy()
 
             widget_list_obj.append(widget_obj)
 
-        if wtype == WTYPE_Active:
+        if wtype == WidgetActive.Active:
             context["active"] = widget_list_obj
-        elif wtype == WTYPE_Passive:
+        elif wtype == WidgetActive.Passive:
             context["passive"] = widget_list_obj
 
     context["cstr"] = cstrlit

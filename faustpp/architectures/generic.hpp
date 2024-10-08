@@ -45,7 +45,7 @@ public:
     enum { NumParameters = {{active|length + passive|length}} };
 
     enum Parameter {
-        {% for w in active + passive %}p_{{cid(w.meta.symbol|default(w.label))}},
+        {% for w in active + passive %}p_{{w.meta.symbol}},
         {% endfor %}
     };
 
@@ -57,23 +57,25 @@ public:
 
     static const char *parameter_label(unsigned index) noexcept;
     static const char *parameter_short_label(unsigned index) noexcept;
+    static const char *parameter_style(unsigned index) noexcept;
     static const char *parameter_symbol(unsigned index) noexcept;
     static const char *parameter_unit(unsigned index) noexcept;
     static const ParameterRange *parameter_range(unsigned index) noexcept;
     static bool parameter_is_trigger(unsigned index) noexcept;
     static bool parameter_is_boolean(unsigned index) noexcept;
+    static bool parameter_is_enum(unsigned index) noexcept;
     static bool parameter_is_integer(unsigned index) noexcept;
     static bool parameter_is_logarithmic(unsigned index) noexcept;
 
     float get_parameter(unsigned index) const noexcept;
     void set_parameter(unsigned index, float value) noexcept;
 
-    {% for w in active + passive %}
-    float get_{{cid(w.meta.symbol|default(w.label))}}() const noexcept;
-    {% endfor %}
-    {% for w in active %}
-    void set_{{cid(w.meta.symbol|default(w.label))}}(float value) noexcept;
-    {% endfor %}
+    {%- for w in active + passive %}
+    float get_{{w.meta.symbol}}() const noexcept;
+    {%- endfor %}
+    {%- for w in active %}
+    void set_{{w.meta.symbol}}(float value) noexcept;
+    {%- endfor %}
 
 public:
     class BasicDsp;
