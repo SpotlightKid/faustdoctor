@@ -38,6 +38,11 @@ void init{{class_name}}({{class_name}}* dsp, int sample_rate);
 void buildUserInterface{{class_name}}({{class_name}}* dsp, UIGlue* ui_interface);
 void compute{{class_name}}({{class_name}}* dsp, int count, FAUSTFLOAT** RESTRICT inputs, FAUSTFLOAT** RESTRICT outputs);
 
+typedef struct {
+    FAUSTFLOAT init;
+    FAUSTFLOAT min;
+    FAUSTFLOAT max;
+} ParameterRange;
 
 int parameter_group(unsigned index) {
     switch (index) {
@@ -97,37 +102,35 @@ const char *parameter_symbol(unsigned index) {
 
 const char *parameter_unit(unsigned index) {
     switch (index) {
-    {% for w in active + passive %}
+{% for w in active + passive %}
     case {{loop.index0}}:
         return {{cstr(w.unit)}};
-    {% endfor %}
+{% endfor %}
     default:
         return 0;
     }
 }
 
-{#
 const ParameterRange *parameter_range(unsigned index) {
     switch (index) {
-    {% for w in active + passive %}
+{% for w in active + passive %}
     case {{loop.index0}}: {
         static const ParameterRange range = { {{w.init}}, {{w.min}}, {{w.max}} };
         return &range;
     }
-    {% endfor %}
+{% endfor %}
     default:
         return 0;
     }
 }
-#}
 
 bool parameter_is_trigger(unsigned index) {
     switch (index) {
-    {% for w in active + passive %}{% if w.type in ["button"] or
-                                            w.meta.trigger is defined %}
+{% for w in active + passive %}{% if w.type in ["button"] or
+                                        w.meta.trigger is defined %}
     case {{loop.index0}}:
         return true;
-    {% endif %}{% endfor %}
+{% endif %}{% endfor %}
     default:
         return false;
     }
@@ -135,11 +138,11 @@ bool parameter_is_trigger(unsigned index) {
 
 bool parameter_is_boolean(unsigned index) {
     switch (index) {
-    {% for w in active + passive %}{% if w.type in ["button", "checkbox"] or
-                                            w.meta.boolean is defined %}
+{% for w in active + passive %}{% if w.type in ["button", "checkbox"] or
+                                        w.meta.boolean is defined %}
     case {{loop.index0}}:
         return true;
-    {% endif %}{% endfor %}
+{% endif %}{% endfor %}
     default:
         return false;
     }
@@ -147,10 +150,10 @@ bool parameter_is_boolean(unsigned index) {
 
 bool parameter_is_enum(unsigned index) {
     switch (index) {
-    {% for w in active + passive %}{% if w.meta.style in ["menu", "radio"] %}
+{% for w in active + passive %}{% if w.meta.style in ["menu", "radio"] %}
     case {{loop.index0}}:
         return true;
-    {% endif %}{% endfor %}
+{% endif %}{% endfor %}
     default:
         return false;
     }
@@ -158,12 +161,12 @@ bool parameter_is_enum(unsigned index) {
 
 bool parameter_is_integer(unsigned index) {
     switch (index) {
-    {% for w in active + passive %}{% if w.type in ["button", "checkbox"] or
-                                            w.meta.integer is defined or
-                                            w.meta.boolean is defined %}
+{% for w in active + passive %}{% if w.type in ["button", "checkbox"] or
+                                        w.meta.integer is defined or
+                                        w.meta.boolean is defined %}
     case {{loop.index0}}:
         return true;
-    {% endif %}{% endfor %}
+{% endif %}{% endfor %}
     default:
         return false;
     }
@@ -171,10 +174,10 @@ bool parameter_is_integer(unsigned index) {
 
 bool parameter_is_logarithmic(unsigned index) {
     switch (index) {
-    {% for w in active + passive %}{% if w.scale == "log" %}
+{% for w in active + passive %}{% if w.scale == "log" %}
     case {{loop.index0}}:
         return true;
-    {% endif %}{% endfor %}
+{% endif %}{% endfor %}
     default:
         return false;
     }
@@ -182,10 +185,10 @@ bool parameter_is_logarithmic(unsigned index) {
 
 FAUSTFLOAT get_parameter({{class_name}}* dsp, unsigned index) {
     switch (index) {
-    {% for w in active + passive %}
+{% for w in active + passive %}
     case {{loop.index0}}:
         return dsp->{{w.varname}};
-    {% endfor %}
+{% endfor %}
     default:
         (void)dsp;
         return 0.0;
@@ -194,11 +197,11 @@ FAUSTFLOAT get_parameter({{class_name}}* dsp, unsigned index) {
 
 void set_parameter({{class_name}}* dsp, unsigned index, FAUSTFLOAT value) {
     switch (index) {
-    {% for w in active %}
+{% for w in active %}
     case {{loop.index0}}:
         dsp->{{w.varname}} = value;
         break;
-    {% endfor %}
+{% endfor %}
     default:
         (void)dsp;
         (void)value;

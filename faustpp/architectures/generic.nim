@@ -2,6 +2,8 @@
 
 type
     {{class_name}}* = object
+    ParameterRange* = object
+        init*, min*, max*: cfloat
     SampleBuffer* = UncheckedArray[cfloat]
 
 
@@ -11,6 +13,7 @@ proc init{{class_name}}*(dsp: ptr {{class_name}}, sample_rate: cint) {.importc.}
 proc instanceClear{{class_name}}*(dsp: ptr {{class_name}}) {.importc.}
 proc compute{{class_name}}*(dsp: ptr {{class_name}}, count: cint, inputs, outputs: ptr ptr SampleBuffer) {.importc.}
 
+proc parameter_range*(index: cuint): ptr ParameterRange {.importc.}
 proc parameter_group*(index: cuint): cint {.importc}
 proc parameter_is_boolean*(index: cuint): bool {.importc}
 proc parameter_is_enum*(index: cuint): bool {.importc}
