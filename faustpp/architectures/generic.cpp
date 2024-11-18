@@ -276,6 +276,39 @@ const {{Identifier}}::ParameterRange *{{Identifier}}::parameter_range(unsigned i
     }
 }
 
+unsigned {{Identifier}}::parameter_scale_point_count(unsigned index) noexcept
+{
+    switch (index) {
+    {% for w in active + passive %}{% if w.style in ["menu", "radio"] %}
+    case {{loop.index0}}:
+        return {{ w.entries | length }};
+    {%- endif %}{% endfor %}
+    default:
+        return 0;
+    }
+}
+
+const {{Identifier}}::ParameterScalePoint *{{Identifier}}::parameter_scale_point(unsigned index, unsigned point) noexcept
+{
+    switch (index) {
+    {% for w in active + passive %}{% if w.style in ["menu", "radio"] %}
+    case {{loop.index0}}:
+        switch (point) {
+        {% for label, value in w.entries %}
+        case {{loop.index0}}: {
+            static const ParameterScalePoint scale_point = { {{cstr(label)}}, {{value}} };
+            return &scale_point;
+        }
+        {%- endfor %}
+        default:
+            return 0;
+        }
+    {%- endif %}{% endfor %}
+    default:
+        return 0;
+    }
+}
+
 bool {{Identifier}}::parameter_is_trigger(unsigned index) noexcept
 {
     switch (index) {

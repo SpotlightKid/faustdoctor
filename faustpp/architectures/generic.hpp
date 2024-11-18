@@ -26,6 +26,7 @@
 #define {{Identifier}}_Faust_pp_Gen_HPP_
 
 #include <memory>
+#include <string>
 
 class {{Identifier}} {
 public:
@@ -57,6 +58,11 @@ public:
         float max;
     };
 
+    struct ParameterScalePoint {
+        std::string label;
+        float value;
+    };
+
     int parameter_group(unsigned index) noexcept;
     int parameter_order(unsigned index) noexcept;
     static const char *parameter_group_label(unsigned group_id) noexcept;
@@ -67,6 +73,8 @@ public:
     static const char *parameter_symbol(unsigned index) noexcept;
     static const char *parameter_unit(unsigned index) noexcept;
     static const ParameterRange *parameter_range(unsigned index) noexcept;
+    unsigned parameter_scale_point_count(unsigned index) noexcept;
+    static const ParameterScalePoint *parameter_scale_point(unsigned index, unsigned point) noexcept;
     static bool parameter_is_trigger(unsigned index) noexcept;
     static bool parameter_is_boolean(unsigned index) noexcept;
     static bool parameter_is_enum(unsigned index) noexcept;
