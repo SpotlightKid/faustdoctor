@@ -228,9 +228,9 @@ const char *{{Identifier}}::parameter_short_label(unsigned index) noexcept
 const char *{{Identifier}}::parameter_style(unsigned index) noexcept
 {
     switch (index) {
-    {% for w in active + passive %}{% if w.meta.style is defined and (w.meta.style.startswith("menu{") or w.meta.style.startswith("radio{")) %}
+    {% for w in active + passive %}{% if w.style != "knob" %}
     case {{loop.index0}}: {
-        return {{cstr(w.meta.style)}};
+        return {{cstr(w.style)}};
     }
     {%- endif %}{% endfor %}
     default:

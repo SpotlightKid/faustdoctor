@@ -151,7 +151,7 @@ def extract_widget(node: ET.Element, is_active: bool, md: Metadata) -> Widget:
     w.hidden = False
     w.scale = WidgetScale.Linear
     w.screencolor = ""
-    w.style = WidgetStyle.Slider
+    w.style = WidgetStyle.Knob
     w.tooltip = ""
     w.unit = ""
 
@@ -187,9 +187,9 @@ def extract_widget(node: ET.Element, is_active: bool, md: Metadata) -> Widget:
             w.scale = widget_scale_from_name(value.lower())
         elif key == "screencolor":
             w.symbol = value.strip()
-        elif key == "style":
+        elif key == "style" and value:
             style = parse_widget_style(value)
-            w.style = widget_style_from_name(style[0])
+            w.style = widget_style_from_name(style[0].lower())
             w.entries = style[1]
         elif key == "symbol":
             w.symbol = mangle(value)
@@ -225,7 +225,7 @@ def parse_widget_style(value: str) -> Tuple[str, List[Tuple[str, float]]]:
     """Parse value of [style:...] widget meta data
 
     The value can be either a simple widget style like `knob`, `led` or
-    `numerical`, or a a style name and list of entries within curly braces,
+    `numerical`, or a style name and list of entries within curly braces,
     e.g. for menus or radio buttons. Examples:
 
     * `menu{’label1’:v1;’label2’:v2...}` or
