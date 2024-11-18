@@ -116,7 +116,7 @@ def main(args=sys.argv):
 def do_cmdline(args: List[str]) -> CmdArgs:
     parser: ArgumentParser = ArgumentParser(description="A post-processor for the faust compiler")
     parser.add_argument("-a", "--template", metavar="FILENAME", dest="tmplfile", help="architecture template file")
-    parser.add_argument("-c", "--class-name", metavar="IDENT", default="dsp", help="name of the dsp class/struct (default: %(default)r)")
+    parser.add_argument("-c", "--class-name", metavar="IDENT", default="mydsp", help="name of the dsp class/struct (default: %(default)r)")
     parser.add_argument("-l", "--lang", choices=["c", "cpp"], default="cpp", help="language to generate code for (default: %(default)s)")
     parser.add_argument("-o", "--output", dest="outfile", metavar="PATH", help="output file")
     parser.add_argument("-D", "--define", dest="defines", metavar="NAME=VAL", action="append", help="template context variable definition, in the form name=value")
