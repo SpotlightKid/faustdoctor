@@ -1,6 +1,12 @@
 # faustpp
 
-[![Build Status](https://travis-ci.com/jpcima/faustpp.svg?branch=master)](https://travis-ci.com/jpcima/faustpp)
+**NOTE:** *This is a fork of [jpcima/faustpp](https://github.com/jpcima/faustpp),
+which is not endorsed by upstream (since its maintainer is MIA). It is
+also **not backward compatible** with the upstream version, since it features
+breaking changes to the architecture template, the template context and the
+command line interface.*
+
+---
 
 A post-processor for faust, which allows to generate with more flexibility
 
