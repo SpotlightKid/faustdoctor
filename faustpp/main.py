@@ -24,7 +24,7 @@ class CmdArgs:
     tmplfile: str
     outfile: Optional[str]
     dspfile: str
-    class_name: str
+    classname: str
     lang: str
     defines: Dict[str, str]
     faustargs: List[str]
@@ -58,7 +58,7 @@ def main(args=sys.argv):
 
             mdfile.flush()
 
-            mdargs: List[str] = ["-a", mdfile.name, "-cn", cmd.class_name]
+            mdargs: List[str] = ["-a", mdfile.name, "-cn", cmd.classname]
 
             if cmd.faustargs:
                 for arg in cmd.faustargs:
@@ -79,14 +79,14 @@ def main(args=sys.argv):
             mdresult: FaustResult = call_faust(cmd.dspfile, mdargs, lang=cmd.lang)
 
             md: Metadata = extract_metadata(mdresult.docmd)
-            md.faust_version = str(faust_version)
+            md.faustversion = str(faust_version)
 
             if cmd.lang == "cpp":
                 source = apply_workarounds(mdresult.source, mdresult.docmd)
-                md.class_code = add_namespace(source)
+                md.classcode = add_namespace(source)
             elif cmd.lang == "c":
                 source, md.structs = lift_structs(mdresult.source)
-                md.class_code = remove_preamble_and_epilog(source)
+                md.classcode = remove_preamble_and_epilog(source)
 
             md.source = mdresult.source
 
@@ -134,7 +134,7 @@ def do_cmdline(args: List[str]) -> CmdArgs:
     cmd.outfile = result.outfile
     cmd.dspfile = result.dspfile
     cmd.lang = result.lang
-    cmd.class_name = result.class_name
+    cmd.classname = result.class_name
     cmd.defines = {}
     cmd.faustargs = result.faustargs
 

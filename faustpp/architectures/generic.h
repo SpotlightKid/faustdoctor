@@ -1,12 +1,12 @@
-#ifndef  __{{class_name}}_H__
-#define  __{{class_name}}_H__
+#ifndef  __{{classname}}_H__
+#define  __{{classname}}_H__
 
 #ifndef FAUSTFLOAT
 #define FAUSTFLOAT float
 #endif
 
 #ifndef FAUSTCLASS
-#define FAUSTCLASS {{class_name}}
+#define FAUSTCLASS {{classname}}
 #endif
 
 #if defined(_WIN32)
@@ -23,20 +23,20 @@
 {{struct}}
 {% endfor %}
 
-{{class_name}}* new{{class_name}}();
-void delete{{class_name}}({{class_name}}* dsp);
-void metadata{{class_name}}(MetaGlue* m);
-int getSampleRate{{class_name}}({{class_name}}* RESTRICT dsp);
-int getNumInputs{{class_name}}({{class_name}}* RESTRICT dsp);
-int getNumOutputs{{class_name}}({{class_name}}* RESTRICT dsp);
-void classInit{{class_name}}(int sample_rate);
-void instanceResetUserInterface{{class_name}}({{class_name}}* dsp);
-void instanceClear{{class_name}}({{class_name}}* dsp);
-void instanceConstants{{class_name}}({{class_name}}* dsp, int sample_rate);
-void instanceInit{{class_name}}({{class_name}}* dsp, int sample_rate);
-void init{{class_name}}({{class_name}}* dsp, int sample_rate);
-void buildUserInterface{{class_name}}({{class_name}}* dsp, UIGlue* ui_interface);
-void compute{{class_name}}({{class_name}}* dsp, int count, FAUSTFLOAT** RESTRICT inputs, FAUSTFLOAT** RESTRICT outputs);
+{{classname}}* new{{classname}}();
+void delete{{classname}}({{classname}}* dsp);
+void metadata{{classname}}(MetaGlue* m);
+int getSampleRate{{classname}}({{classname}}* RESTRICT dsp);
+int getNumInputs{{classname}}({{classname}}* RESTRICT dsp);
+int getNumOutputs{{classname}}({{classname}}* RESTRICT dsp);
+void classInit{{classname}}(int sample_rate);
+void instanceResetUserInterface{{classname}}({{classname}}* dsp);
+void instanceClear{{classname}}({{classname}}* dsp);
+void instanceConstants{{classname}}({{classname}}* dsp, int sample_rate);
+void instanceInit{{classname}}({{classname}}* dsp, int sample_rate);
+void init{{classname}}({{classname}}* dsp, int sample_rate);
+void buildUserInterface{{classname}}({{classname}}* dsp, UIGlue* ui_interface);
+void compute{{classname}}({{classname}}* dsp, int count, FAUSTFLOAT** RESTRICT inputs, FAUSTFLOAT** RESTRICT outputs);
 
 typedef struct {
     FAUSTFLOAT init;
@@ -183,7 +183,7 @@ bool parameter_is_logarithmic(unsigned index) {
     }
 }
 
-FAUSTFLOAT get_parameter({{class_name}}* dsp, unsigned index) {
+FAUSTFLOAT get_parameter({{classname}}* dsp, unsigned index) {
     switch (index) {
 {% for w in active + passive %}
     case {{loop.index0}}:
@@ -195,7 +195,7 @@ FAUSTFLOAT get_parameter({{class_name}}* dsp, unsigned index) {
     }
 }
 
-void set_parameter({{class_name}}* dsp, unsigned index, FAUSTFLOAT value) {
+void set_parameter({{classname}}* dsp, unsigned index, FAUSTFLOAT value) {
     switch (index) {
 {% for w in active %}
     case {{loop.index0}}:
@@ -210,14 +210,14 @@ void set_parameter({{class_name}}* dsp, unsigned index, FAUSTFLOAT value) {
 }
 
 {% for w in active + passive %}
-FAUSTFLOAT get_{{w.meta.symbol}}({{class_name}}* dsp) {
+FAUSTFLOAT get_{{w.meta.symbol}}({{classname}}* dsp) {
     return dsp->{{w.varname}};
 }
 {% endfor %}
 {% for w in active %}
-void set_{{w.meta.symbol}}({{class_name}}* dsp, FAUSTFLOAT value) {
+void set_{{w.meta.symbol}}({{classname}}* dsp, FAUSTFLOAT value) {
     dsp->{{w.varname}} = value;
 }
 {% endfor %}
 
-#endif  /* __{{class_name}}_H__ */
+#endif  /* __{{classname}}_H__ */

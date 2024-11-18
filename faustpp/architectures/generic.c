@@ -3,20 +3,20 @@
 // This file was generated using the Faust compiler (https://faust.grame.fr),
 // and the Faust post-processor (https://github.com/SpotlightKid/faustpp).
 //
-// Source: {{file_name}}
+// Source: {{filename}}
 // Name: {{name}}
 // Author: {{author}}
 // Copyright: {{copyright}}
 // License: {{license}}
 // Version: {{version}}
-// FAUST version: {{faust_version}}
+// FAUST version: {{faustversion}}
 // FAUST compilation options: {{meta.compile_options}}
 //------------------------------------------------------------------------------
 {% endblock %}
 {% block ImplementationPrologue %}
 {% endblock %}
 {% block ImplementationIncludeHeader %}
-#include "{{class_name}}.h"
+#include "{{classname}}.h"
 {% endblock %}
 {% block ImplementationIncludeExtra %}
 {% endblock %}

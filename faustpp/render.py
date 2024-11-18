@@ -31,7 +31,7 @@ def render_metadata(out: TextIO, md: Metadata, tmplfile: str, defines: Dict[str,
 def make_global_environment(md: Metadata, defines: Dict[str, str]) -> Dict[str, Any]:
     context: Dict[str, Any] = {}
 
-    context["class_code"] = md.class_code
+    context["classcode"] = md.classcode
     context["source"] = md.source
     context["structs"] = md.structs.copy()
 
@@ -40,9 +40,9 @@ def make_global_environment(md: Metadata, defines: Dict[str, str]) -> Dict[str, 
     context["copyright"] = md.copyright
     context["license"] = md.license
     context["version"] = md.version
-    context["faust_version"] = md.faust_version
-    context["class_name"] = md.classname
-    context["file_name"] = md.filename
+    context["faustversion"] = md.faustversion
+    context["classname"] = md.classname
+    context["filename"] = md.filename
     context["inputs"] = int(md.inputs)
     context["outputs"] = int(md.outputs)
     context["meta"] = md.metadata.copy()

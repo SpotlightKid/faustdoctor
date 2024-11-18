@@ -3,7 +3,7 @@
 // This file was generated using the Faust compiler (https://faust.grame.fr),
 // and the Faust post-processor (https://github.com/jpcima/faustpp).
 //
-// Source: {{file_name}}
+// Source: {{filename}}
 // Name: {{name}}
 // Author: {{author}}
 // Copyright: {{copyright}}

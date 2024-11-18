@@ -73,7 +73,7 @@ class Metadata:
     copyright: str
     license: str
     version: str
-    faust_version: str
+    faustversion: str
     classname: str
     filename: str
     groups: List[Tuple[str, List[int]]]
@@ -85,7 +85,7 @@ class Metadata:
     active: List[Widget]
     passive: List[Widget]
 
-    class_code: str
+    classcode: str
     source: str
     structs: Dict[str, str]
 
@@ -107,7 +107,7 @@ def extract_metadata(doc: ET.ElementTree) -> Metadata:
     md.filename = ""
     md.inputs = int(safe_element_text(root.find("inputs"), '0'))
     md.outputs = int(safe_element_text(root.find("outputs"), '0'))
-    md.class_code = ""
+    md.classcode = ""
     md.source = ""
     md.structs = {}
 

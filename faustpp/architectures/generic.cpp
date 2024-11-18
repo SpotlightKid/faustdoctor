@@ -3,7 +3,7 @@
 // This file was generated using the Faust compiler (https://faust.grame.fr),
 // and the Faust post-processor (https://github.com/jpcima/faustpp).
 //
-// Source: {{file_name}}
+// Source: {{filename}}
 // Name: {{name}}
 // Author: {{author}}
 // Copyright: {{copyright}}
@@ -89,7 +89,7 @@ typedef {{Identifier}}::BasicDsp dsp;
 #   define FAUSTPP_VIRTUAL virtual
 #endif
 
-{{class_code}}
+{{classcode}}
 
 #if defined(__GNUC__)
 #   pragma GCC diagnostic pop
@@ -105,7 +105,7 @@ typedef {{Identifier}}::BasicDsp dsp;
 {{Identifier}}::{{Identifier}}()
 {
 {% block ImplementationSetupDsp %}
-    {{class_name}} *dsp = new {{class_name}};
+    {{classname}} *dsp = new {{classname}};
     fDsp.reset(dsp);
     dsp->instanceResetUserInterface();
 {% endblock %}
@@ -118,7 +118,7 @@ typedef {{Identifier}}::BasicDsp dsp;
 void {{Identifier}}::init(float sample_rate)
 {
 {% block ImplementationInitDsp %}
-    {{class_name}} &dsp = static_cast<{{class_name}} &>(*fDsp);
+    {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
     dsp.classInit(sample_rate);
     dsp.instanceConstants(sample_rate);
     clear();
@@ -128,7 +128,7 @@ void {{Identifier}}::init(float sample_rate)
 void {{Identifier}}::clear() noexcept
 {
 {% block ImplementationClearDsp %}
-    {{class_name}} &dsp = static_cast<{{class_name}} &>(*fDsp);
+    {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
     dsp.instanceClear();
 {% endblock %}
 }
@@ -139,7 +139,7 @@ void {{Identifier}}::process(
     unsigned count) noexcept
 {
 {% block ImplementationProcessDsp %}
-    {{class_name}} &dsp = static_cast<{{class_name}} &>(*fDsp);
+    {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
     float *inputs[] = {
         {% for i in range(inputs) %}const_cast<float *>(in{{i}}),{% endfor %}
     };
@@ -303,11 +303,11 @@ bool {{Identifier}}::parameter_is_logarithmic(unsigned index) noexcept
 
 float {{Identifier}}::get_parameter(unsigned index) const noexcept
 {
-    {{class_name}} &dsp = static_cast<{{class_name}} &>(*fDsp);
+    {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
     switch (index) {
     {% for w in active + passive %}
     case {{loop.index0}}:
-        return dsp.{{w.var}};
+        return dsp.{{w.varname}};
     {% endfor %}
     default:
         (void)dsp;
@@ -317,11 +317,11 @@ float {{Identifier}}::get_parameter(unsigned index) const noexcept
 
 void {{Identifier}}::set_parameter(unsigned index, float value) noexcept
 {
-    {{class_name}} &dsp = static_cast<{{class_name}} &>(*fDsp);
+    {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
     switch (index) {
     {% for w in active %}
     case {{loop.index0}}:
-        dsp.{{w.var}} = value;
+        dsp.{{w.varname}} = value;
         break;
     {% endfor %}
     default:
@@ -334,15 +334,15 @@ void {{Identifier}}::set_parameter(unsigned index, float value) noexcept
 {% for w in active + passive %}
 float {{Identifier}}::get_{{w.meta.symbol}}() const noexcept
 {
-    {{class_name}} &dsp = static_cast<{{class_name}} &>(*fDsp);
-    return dsp.{{w.var}};
+    {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
+    return dsp.{{w.varname}};
 }
 {% endfor %}
 {% for w in active %}
 void {{Identifier}}::set_{{w.meta.symbol}}(float value) noexcept
 {
-    {{class_name}} &dsp = static_cast<{{class_name}} &>(*fDsp);
-    dsp.{{w.var}} = value;
+    {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
+    dsp.{{w.varname}} = value;
 }
 {% endfor %}
 
