@@ -1,3 +1,18 @@
+{% block HeaderDescription -%}
+//------------------------------------------------------------------------------
+// This file was generated using the Faust compiler (https://faust.grame.fr),
+// and the Faust post-processor (https://github.com/SpotlightKid/faustpp).
+//
+// Source: {{filename}}
+// Name: {{name}}
+// Author: {{author}}
+// Copyright: {{copyright}}
+// License: {{license}}
+// Version: {{version}}
+// FAUST version: {{faustversion}}
+// FAUST compilation options: {{meta.compile_options}}
+//------------------------------------------------------------------------------
+{% endblock %}
 #ifndef  __{{classname}}_H__
 #define  __{{classname}}_H__
 

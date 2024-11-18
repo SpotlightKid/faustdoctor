@@ -9,6 +9,8 @@
 // Copyright: {{copyright}}
 // License: {{license}}
 // Version: {{version}}
+// FAUST version: {{faustversion}}
+// FAUST compilation options: {{meta.compile_options}}
 //------------------------------------------------------------------------------
 {%- endblock %}
 
