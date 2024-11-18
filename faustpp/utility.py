@@ -9,11 +9,9 @@ import xml.etree.ElementTree as ET
 from typing import Optional
 
 def parse_cfloat(text: str):
-    if len(text) > 0 and text[-1] in 'fF':
-        text = text[:-1]
-    return float(text)
+    return float(text.rstrip("fF"))
 
-def safe_element_text(elt: Optional[ET.Element], default_value: str = '') -> str:
+def safe_element_text(elt: Optional[ET.Element], default_value: str = "") -> str:
     if elt is None:
         return default_value
     text: Optional[str] = elt.text
@@ -21,7 +19,7 @@ def safe_element_text(elt: Optional[ET.Element], default_value: str = '') -> str
         return default_value
     return text
 
-def safe_element_attribute(elt: Optional[ET.Element], name: str, default_value: str = '') -> str:
+def safe_element_attribute(elt: Optional[ET.Element], name: str, default_value: str = "") -> str:
     if elt is None:
         return default_value
     text: Optional[str] = elt.attrib.get(name)
@@ -30,18 +28,7 @@ def safe_element_attribute(elt: Optional[ET.Element], name: str, default_value: 
     return text
 
 def is_decint_string(str: str) -> bool:
-    if str.startswith('-'):
-        str = str[1:]
-
-    if len(str) == 0:
-        return False
-
-    c: int
-    for c in map(ord, str):
-        if c < ord('0') or c > ord('9'):
-            return False
-
-    return True;
+    return str.lstrip("-").isdecimal()
 
 def parse_cstrlit(lit: str) -> str:
     src: bytes = lit.encode('utf-8')
