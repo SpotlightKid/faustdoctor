@@ -174,9 +174,9 @@ def extract_widget(node: ET.Element, is_active: bool, md: Metadata) -> Widget:
     meta: ET.Element
     for meta in node.findall('./meta'):
         key: str = safe_element_attribute(meta, "key")
-        value: str = safe_element_text(meta)
+        value: str = safe_element_text(meta).strip()
 
-        if is_decint_string(key) and not value.strip():
+        if is_decint_string(key) and not value:
             w.order = int(key)
 
         w.metadata[key] = value
@@ -186,7 +186,7 @@ def extract_widget(node: ET.Element, is_active: bool, md: Metadata) -> Widget:
         elif key == "scale":
             w.scale = widget_scale_from_name(value.lower())
         elif key == "screencolor":
-            w.symbol = value.strip()
+            w.screencolor = value
         elif key == "style" and value:
             style = parse_widget_style(value)
             w.style = widget_style_from_name(style[0].lower())
@@ -196,7 +196,7 @@ def extract_widget(node: ET.Element, is_active: bool, md: Metadata) -> Widget:
         elif key == "tooltip":
             w.tooltip = value
         elif key == "unit":
-            w.unit = value.strip()
+            w.unit = value
 
     return w
 
