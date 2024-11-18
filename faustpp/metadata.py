@@ -110,21 +110,9 @@ def extract_metadata(doc: ET.ElementTree) -> Metadata:
     md.classcode = ""
     md.source = ""
     md.structs = {}
-
-    md.groupmap = {}
-    md.groups = []
-    layout_el = root.find('./ui/layout')
-
-    if layout_el:
-        for gid, group in enumerate(layout_el.findall('.//group')):
-            name: str = safe_element_text(group.find("label"))
-            widget_ids: List[int] = [int(safe_element_attribute(ref, "id"))
-                                    for ref in group.findall("widgetref")]
-            md.groups.append((name, widget_ids))
-            for wid in widget_ids:
-                md.groupmap[wid] = gid
-
     md.metadata = {}
+    md.groups, md.groupmap = parse_groups(root)
+
     meta: ET.Element
     for meta in root.findall('meta'):
         # TODO: parse keys like "filters.lib/fir:author" and build metadata tree
@@ -211,6 +199,26 @@ def extract_widget(node: ET.Element, is_active: bool, md: Metadata) -> Widget:
             w.unit = value.strip()
 
     return w
+
+
+def parse_groups(root: ET.Element):
+    groupmap = {}
+    groups = []
+    layout_el = root.find('./ui/layout')
+
+    if layout_el:
+        gid = 0
+        for group in layout_el.findall('.//group'):
+            name: str = safe_element_text(group.find("label"))
+            widget_ids: List[int] = [int(safe_element_attribute(ref, "id"))
+                                     for ref in group.findall("widgetref")]
+            if widget_ids:
+                groups.append((name, widget_ids))
+                for wid in widget_ids:
+                    groupmap[wid] = gid
+                gid += 1
+
+    return groups, groupmap
 
 
 def parse_widget_style(value: str) -> Tuple[str, List[Tuple[str, float]]]:

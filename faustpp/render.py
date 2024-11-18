@@ -46,6 +46,7 @@ def make_global_environment(md: Metadata, defines: Dict[str, str]) -> Dict[str, 
     context["inputs"] = int(md.inputs)
     context["outputs"] = int(md.outputs)
     context["meta"] = md.metadata.copy()
+    context["groups"] = md.groups[:]
 
     wtype: int
     for wtype in (WidgetActive.Active, WidgetActive.Passive):

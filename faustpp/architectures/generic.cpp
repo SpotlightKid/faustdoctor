@@ -164,6 +164,43 @@ int {{Identifier}}::parameter_group(unsigned index) noexcept
     }
 }
 
+const char *{{Identifier}}::parameter_group_label(unsigned group_id) noexcept
+{
+    switch (group_id) {
+    {% for label, _ in groups %}
+    case {{loop.index0}}:
+        return {{ cstr(label) }};
+    {%- endfor %}
+    default:
+        return 0;
+    }
+}
+
+const char *{{Identifier}}::parameter_group_symbol(unsigned group_id) noexcept
+{
+    switch (group_id) {
+    {% for label, _ in groups %}
+    case {{loop.index0}}:
+        return {{ cstr(label.lower()) }};
+    {%- endfor %}
+    default:
+        return 0;
+    }
+}
+
+
+int {{Identifier}}::parameter_order(unsigned index) noexcept
+{
+    switch (index) {
+    {% for w in active + passive %}{% if w.order != -1 %}
+    case {{loop.index0}}:
+        return {{w.order}};
+    {%- endif %}{%- endfor %}
+    default:
+        return -1;
+    }
+}
+
 const char *{{Identifier}}::parameter_label(unsigned index) noexcept
 {
     switch (index) {

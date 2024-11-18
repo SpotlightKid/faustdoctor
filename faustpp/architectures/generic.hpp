@@ -57,6 +57,10 @@ public:
         float max;
     };
 
+    int parameter_group(unsigned index) noexcept;
+    int parameter_order(unsigned index) noexcept;
+    static const char *parameter_group_label(unsigned group_id) noexcept;
+    static const char *parameter_group_symbol(unsigned group_id) noexcept;
     static const char *parameter_label(unsigned index) noexcept;
     static const char *parameter_short_label(unsigned index) noexcept;
     static const char *parameter_style(unsigned index) noexcept;
