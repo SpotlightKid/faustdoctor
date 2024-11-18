@@ -105,7 +105,7 @@ const char *parameter_unit(unsigned index) {
 {% for w in active + passive %}
     case {{loop.index0}}:
         return {{cstr(w.unit)}};
-{% endfor %}
+{%- endfor %}
     default:
         return 0;
     }
@@ -118,7 +118,7 @@ const ParameterRange *parameter_range(unsigned index) {
         static const ParameterRange range = { {{w.init}}, {{w.min}}, {{w.max}} };
         return &range;
     }
-{% endfor %}
+{%- endfor %}
     default:
         return 0;
     }
@@ -188,7 +188,7 @@ FAUSTFLOAT get_parameter({{classname}}* dsp, unsigned index) {
 {% for w in active + passive %}
     case {{loop.index0}}:
         return dsp->{{w.varname}};
-{% endfor %}
+{%- endfor %}
     default:
         (void)dsp;
         return 0.0;
@@ -201,7 +201,7 @@ void set_parameter({{classname}}* dsp, unsigned index, FAUSTFLOAT value) {
     case {{loop.index0}}:
         dsp->{{w.varname}} = value;
         break;
-{% endfor %}
+{%- endfor %}
     default:
         (void)dsp;
         (void)value;

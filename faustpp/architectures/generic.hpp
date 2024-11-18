@@ -1,4 +1,4 @@
-{% block HeaderDescription %}
+{% block HeaderDescription -%}
 //------------------------------------------------------------------------------
 // This file was generated using the Faust compiler (https://faust.grame.fr),
 // and the Faust post-processor (https://github.com/jpcima/faustpp).
@@ -10,14 +10,14 @@
 // License: {{license}}
 // Version: {{version}}
 //------------------------------------------------------------------------------
-{% endblock %}
+{%- endblock %}
 
-{% block HeaderPrologue %}
+{% block HeaderPrologue -%}
 {% if not (Identifier is defined and
            Identifier == cid(Identifier)) %}
 {{fail("`Identifier` is undefined or invalid.")}}
 {% endif %}
-{% endblock %}
+{%- endblock %}
 
 #pragma once
 #ifndef {{Identifier}}_Faust_pp_Gen_HPP_
@@ -34,8 +34,8 @@ public:
     void clear() noexcept;
 
     void process(
-        {% for i in range(inputs) %}const float *in{{i}},{% endfor %}
-        {% for i in range(outputs) %}float *out{{i}},{% endfor %}
+        {% for i in range(inputs) %}const float *in{{i}}, {% endfor %}
+        {% for i in range(outputs) %}float *out{{i}}, {% endfor %}
         unsigned count) noexcept;
 
     enum { NumInputs = {{inputs}} };
@@ -83,11 +83,11 @@ public:
 private:
     std::unique_ptr<BasicDsp> fDsp;
 
-{% block ClassExtraDecls %}
-{% endblock %}
+{% block ClassExtraDecls -%}
+{%- endblock %}
 };
 
-{% block HeaderEpilogue %}
-{% endblock %}
+{% block HeaderEpilogue -%}
+{%- endblock %}
 
 #endif // {{Identifier}}_Faust_pp_Gen_HPP_
