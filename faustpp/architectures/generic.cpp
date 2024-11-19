@@ -290,8 +290,10 @@ unsigned {{Identifier}}::parameter_scale_point_count(unsigned index) noexcept
 
 const {{Identifier}}::ParameterScalePoint *{{Identifier}}::parameter_scale_point(unsigned index, unsigned point) noexcept
 {
+    {% set ns = namespace(has_points=false) -%}
     switch (index) {
-    {% for w in active + passive %}{% if w.style in ["menu", "radio"] %}
+    {% for w in active + passive %}{% if w.entries %}
+    {% set ns.has_points = true -%}
     case {{loop.index0}}:
         switch (point) {
         {% for label, value in w.entries %}
@@ -307,6 +309,7 @@ const {{Identifier}}::ParameterScalePoint *{{Identifier}}::parameter_scale_point
     default:
         return 0;
     }
+    {%- if not ns.has_points %}(void) point;{% endif %}
 }
 
 bool {{Identifier}}::parameter_is_trigger(unsigned index) noexcept
