@@ -212,7 +212,7 @@ def parse_groups(root: ET.Element):
             name: str = safe_element_text(group.find("label"))
             widget_ids: List[int] = [int(safe_element_attribute(ref, "id"))
                                      for ref in group.findall("widgetref")]
-            if widget_ids:
+            if widget_ids and name != "0x00":
                 groups.append((name, widget_ids))
                 for wid in widget_ids:
                     groupmap[wid] = gid
