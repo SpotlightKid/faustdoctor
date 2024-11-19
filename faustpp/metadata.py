@@ -53,7 +53,7 @@ class Widget:
     min: float
     max: float
     step: float
-    # for radio buttons enad menus
+    # for radio buttons and menus
     entries: List[Tuple[str, float]]
 
     # Meta data
