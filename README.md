@@ -7,10 +7,9 @@ templates, the template context and the command line interface.*
 
 ---
 
-A post-processor for faust giving more flexibility at source generation.
+A post-processor for FAUST giving more flexibility at source generation.
 
-This is a source transformation tool based on the
-[Faust compiler](https://faust.grame.fr/).
+This is a source transformation tool based on the [FAUST] compiler.
 
 It permits to arrange the way how faust source is generated with greater
 flexibility.
@@ -81,6 +80,7 @@ the [LICENSE.md](./LICENSE.md) file for details.
 
 
 [documentation]: https://spotlightkid.github.io/faustdoctor
+[faust]: https://faust.grame.fr/
 [jinja2]: https://jinja.palletsprojects.com/
 [faustpp]: https://github.com/jpcima/faustpp
 [pipx]: https://pipx.pypa.io/
