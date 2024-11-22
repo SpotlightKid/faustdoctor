@@ -61,7 +61,7 @@ pipx install faustdoctor
 
 ## Authors
 
-This software is based on [faustpp], which was created by * Jean Pierre
+This software is based on [faustpp], which was created by *Jean Pierre
 Cimalando*. The project was forked, renamed to `faustdoctor`, updated, improved
 and extended by *Christopher Arndt*, who now maintains this version.
 
