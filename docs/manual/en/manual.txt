@@ -4,8 +4,8 @@
 :lang: en
 
 = User manual
-Jean Pierre Cimalando
-v1.0
+Jean Pierre Cimalando, Christopher Arndt
+v0.1.0
 :toc:
 
 [.Lead]

@@ -5,4 +5,4 @@
 #
 # SPDX-License-Identifier: BSL-1.0
 
-__version__ = "1.0.0"  # no-qa
+__version__ = "0.1.0"  # no-qa
