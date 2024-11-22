@@ -309,7 +309,7 @@ const {{Identifier}}::ParameterScalePoint *{{Identifier}}::parameter_scale_point
     default:
         return 0;
     }
-    {%- if not ns.has_points %}(void) point;{% endif %}
+    {% if not ns.has_points %}(void) point;{% endif %}
 }
 
 bool {{Identifier}}::parameter_is_trigger(unsigned index) noexcept
