@@ -7,7 +7,7 @@ templates, the template context and the command line interface.*
 
 ---
 
-A post-processor for faust, which allows to generate with more flexibility
+A post-processor for faust giving more flexibility at source generation.
 
 This is a source transformation tool based on the
 [Faust compiler](https://faust.grame.fr/).
@@ -60,12 +60,24 @@ command:
 pipx install faustdoctor
 ```
 
+## Authors
+
+This software is based on [faustpp], which was created by * Jean Pierre
+Cimalando*. The project was forked, renamed to `faustdoctor`, updated, improved
+and extended by *Christopher Arndt*, who now maintains this version.
+
+
+## License
+
+This software is released under the *Boost Software License 1.0*. Please see
+the [LICENSE.md](./LICENSE.md) file for details.
+
 
 ## Release notes
 
-**1.0.0**
+**0.1.0**
 
-- Initial release
+- Initial release (forked from [faustpp] 1.0.0)
 
 
 [documentation]: https://spotlightkid.github.io/faustdoctor
