@@ -4,3 +4,5 @@
 #          http://www.boost.org/LICENSE_1_0.txt)
 #
 # SPDX-License-Identifier: BSL-1.0
+
+__version__ = "1.0.0"  # no-qa

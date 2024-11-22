@@ -38,17 +38,17 @@ def add_namespace(mdsource: str) -> str:
 
     # add our namespace definitions
     ccode += \
-        "#ifndef FAUSTPP_BEGIN_NAMESPACE" "\n" \
-        "#   define FAUSTPP_BEGIN_NAMESPACE" "\n" \
+        "#ifndef FAUSTDR_BEGIN_NAMESPACE" "\n" \
+        "#   define FAUSTDR_BEGIN_NAMESPACE" "\n" \
         "#endif" "\n" \
-        "#ifndef FAUSTPP_END_NAMESPACE" "\n" \
-        "#   define FAUSTPP_END_NAMESPACE" "\n" \
+        "#ifndef FAUSTDR_END_NAMESPACE" "\n" \
+        "#   define FAUSTDR_END_NAMESPACE" "\n" \
         "#endif" "\n" \
         "\n"
 
     # open the namespace
     ccode += \
-        "FAUSTPP_BEGIN_NAMESPACE" "\n" \
+        "FAUSTDR_BEGIN_NAMESPACE" "\n" \
         "\n"
     is_in_namespace : bool = True
 
@@ -60,10 +60,10 @@ def add_namespace(mdsource: str) -> str:
                 # make sure not to enclose #include in the namespace
                 is_include: bool = REG_INCLUDE.match(line) is not None
                 if is_include and is_in_namespace:
-                    ccode += "FAUSTPP_END_NAMESPACE" "\n";
+                    ccode += "FAUSTDR_END_NAMESPACE" "\n";
                     is_in_namespace = False;
                 elif not is_include and not is_in_namespace:
-                    ccode += "FAUSTPP_BEGIN_NAMESPACE" "\n"
+                    ccode += "FAUSTDR_BEGIN_NAMESPACE" "\n"
                     is_in_namespace = True;
 
                 ccode += line;
@@ -74,7 +74,7 @@ def add_namespace(mdsource: str) -> str:
     # close the namespace
     if is_in_namespace:
         ccode += \
-            "FAUSTPP_END_NAMESPACE" "\n" \
+            "FAUSTDR_END_NAMESPACE" "\n" \
             "\n"
 
     return ccode
@@ -123,17 +123,17 @@ def apply_workarounds(cppsource: str, docmd: ET.ElementTree) -> str:
     for line in lines:
         mat = REG_PRIVATE.match(line)
         if mat is not None:
-            source.append('%sFAUSTPP_PRIVATE%s\n' % (mat.group(1), mat.group(2)))
+            source.append('%sFAUSTDR_PRIVATE%s\n' % (mat.group(1), mat.group(2)))
             continue
 
         mat = REG_PROTECTED.match(line)
         if mat is not None:
-            source.append('%sFAUSTPP_PROTECTED%s\n' % (mat.group(1), mat.group(2)))
+            source.append('%sFAUSTDR_PROTECTED%s\n' % (mat.group(1), mat.group(2)))
             continue
 
         mat = REG_VIRTUAL.match(line)
         if mat is not None:
-            source.append('%sFAUSTPP_VIRTUAL%s\n' % (mat.group(1), mat.group(2)))
+            source.append('%sFAUSTDR_VIRTUAL%s\n' % (mat.group(1), mat.group(2)))
             continue
 
         source.append(line + "\n")
