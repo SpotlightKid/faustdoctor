@@ -1,3 +1,28 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "faustdoctor"
+dynamic = ["version"]
+description = "A post-processor for faust, which allows to generate with more flexibility."
+readme = "README.md"
+license = "BSL-1.0"
+dependencies = [
+    "Jinja2",
+]
+
+[project.scripts]
+faustdr = "faustdoctor.main:main"
+
+[tool.hatch.version]
+path = "faustdoctor/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "docs",
+    "examples",
+    "faustdoctor",
+    "thirdparty",
+]
+

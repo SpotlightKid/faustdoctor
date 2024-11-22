@@ -1,6 +1,5 @@
-
-PREFIX = /usr/local
-DOCDIR = $(PREFIX)/share/doc
+PREFIX ?= /usr/local
+DOCDIR ?= $(PREFIX)/share/doc
 LANGS = en
 
 all:
@@ -10,6 +9,6 @@ clean:
 	$(foreach lang,$(LANGS),$(MAKE) -C $(lang) clean;)
 
 install:
-	install -d $(DESTDIR)$(DOCDIR)/faustpp/manual/
-	cp -rf resources $(DESTDIR)$(DOCDIR)/faustpp/manual/
-	$(foreach lang,$(LANGS),install -D $(lang)/manual.html $(DESTDIR)$(DOCDIR)/faustpp/manual/$(lang)/manual.html;)
+	install -dm 755 $(DESTDIR)$(DOCDIR)/faustdoctor/{eaxample,manual}
+	install -Dm 744 examples/*.{dsp,txt} $(DESTDIR)$(DOCDIR)/faustdoctor/examples/
+	$(foreach lang,$(LANGS),install -Dm 644 $(lang)/manual.html $(DESTDIR)$(DOCDIR)/faustdoctor/manual/$(lang)/manual.html;)
