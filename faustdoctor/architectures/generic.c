@@ -31,7 +31,7 @@
 #   pragma GCC diagnostic ignored "-Wunused-parameter"
 #endif
 
-{{ classcode }}
+{{ classcode  | replace('\t', '    ') }}
 
 #if defined(__GNUC__)
 #   pragma GCC diagnostic pop

@@ -36,7 +36,7 @@
 #include "faust/gui/CInterface.h"
 
 {% for _, struct in structs.items() %}
-{{struct}}
+{{ struct | replace('\t', '    ') }}
 {% endfor %}
 
 {{classname}}* new{{classname}}();
