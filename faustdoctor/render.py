@@ -20,7 +20,7 @@ class RenderFailure(Exception):
 
 def render_metadata(out: TextIO, md: Metadata, tmplfile: str, defines: Dict[str, str]):
     tmpldir: str = os.path.dirname(tmplfile)
-    env = Environment(loader=FileSystemLoader(tmpldir))
+    env = Environment(loader=FileSystemLoader(tmpldir), trim_blocks=True, lstrip_blocks=True)
     template = env.get_template(os.path.basename(tmplfile))
 
     context: Dict[str, Any] = make_global_environment(md, defines)

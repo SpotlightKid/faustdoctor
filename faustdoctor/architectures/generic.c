@@ -1,4 +1,4 @@
-{% block ImplementationDescription -%}
+{% block ImplementationDescription %}
 //------------------------------------------------------------------------------
 // This file was generated using the Faust compiler (https://faust.grame.fr),
 // and the Faust post-processor (https://github.com/SpotlightKid/faustdoctor).
@@ -13,6 +13,7 @@
 // FAUST compilation options: {{meta.compile_options}}
 //------------------------------------------------------------------------------
 {% endblock %}
+
 {% block ImplementationPrologue %}
 {% endblock %}
 {% block ImplementationIncludeHeader %}

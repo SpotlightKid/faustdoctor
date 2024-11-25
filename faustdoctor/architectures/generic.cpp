@@ -1,4 +1,4 @@
-{% block ImplementationDescription -%}
+{% block ImplementationDescription %}
 //------------------------------------------------------------------------------
 // This file was generated using the Faust compiler (https://faust.grame.fr),
 // and the Faust post-processor (https://github.com/SpotlightKid/faustdoctor).
@@ -14,18 +14,18 @@
 //------------------------------------------------------------------------------
 {%- endblock %}
 
-{% block ImplementationPrologue -%}
+{% block ImplementationPrologue %}
 {% if not (Identifier is defined and
            Identifier == cid(Identifier)) %}
 {{fail("`Identifier` is undefined or invalid.")}}
 {% endif %}
 {% endblock %}
 
-{% block ImplementationIncludeHeader -%}
+{% block ImplementationIncludeHeader %}
 #include "{{Identifier}}.hpp"
-{%- endblock %}
-{% block ImplementationIncludeExtra -%}
-{%- endblock %}
+{% endblock %}
+{% block ImplementationIncludeExtra %}
+{% endblock %}
 #include <utility>
 #include <cmath>
 
@@ -106,11 +106,11 @@ typedef {{Identifier}}::BasicDsp dsp;
 
 {{Identifier}}::{{Identifier}}()
 {
-{% block ImplementationSetupDsp -%}
+{% block ImplementationSetupDsp %}
     {{classname}} *dsp = new {{classname}};
     fDsp.reset(dsp);
     dsp->instanceResetUserInterface();
-{%- endblock %}
+{% endblock %}
 }
 
 {{Identifier}}::~{{Identifier}}()
@@ -119,37 +119,37 @@ typedef {{Identifier}}::BasicDsp dsp;
 
 void {{Identifier}}::init(float sample_rate)
 {
-{% block ImplementationInitDsp -%}
+{% block ImplementationInitDsp %}
     {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
     dsp.classInit(sample_rate);
     dsp.instanceConstants(sample_rate);
     clear();
-{%- endblock %}
+{% endblock %}
 }
 
 void {{Identifier}}::clear() noexcept
 {
-{% block ImplementationClearDsp -%}
+{% block ImplementationClearDsp %}
     {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
     dsp.instanceClear();
-{%- endblock %}
+{% endblock %}
 }
 
 void {{Identifier}}::process(
-    {% for i in range(inputs) %}const float *in{{i}}, {% endfor %}
-    {% for i in range(outputs) %}float *out{{i}}, {% endfor %}
+    {%+ for i in range(inputs) %}const float *in{{i}}, {% endfor +%}
+    {%+ for i in range(outputs) %}float *out{{i}}, {% endfor +%}
     unsigned count) noexcept
 {
-{% block ImplementationProcessDsp -%}
+{% block ImplementationProcessDsp %}
     {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
     float *inputs[] = {
-        {% for i in range(inputs) %}const_cast<float *>(in{{i}}), {% endfor %}
+        {%+ for i in range(inputs) %}const_cast<float *>(in{{i}}), {% endfor +%}
     };
     float *outputs[] = {
-        {% for i in range(outputs) %}out{{i}}, {% endfor %}
+        {%+ for i in range(outputs) %}out{{i}}, {% endfor +%}
     };
     dsp.compute(count, inputs, outputs);
-{%- endblock %}
+{% endblock %}
 }
 
 int {{Identifier}}::parameter_group(unsigned index) noexcept
@@ -158,7 +158,7 @@ int {{Identifier}}::parameter_group(unsigned index) noexcept
     {% for w in active + passive %}{% if w.group != -1 %}
     case {{loop.index0}}:
         return {{w.group}};
-    {%- endif %}{% endfor %}
+    {% endif %}{% endfor %}
     default:
         return -1;
     }
@@ -170,7 +170,7 @@ const char *{{Identifier}}::parameter_group_label(unsigned group_id) noexcept
     {% for label, _ in groups %}
     case {{loop.index0}}:
         return {{ cstr(label) }};
-    {%- endfor %}
+    {% endfor %}
     default:
         return 0;
     }
@@ -182,7 +182,7 @@ const char *{{Identifier}}::parameter_group_symbol(unsigned group_id) noexcept
     {% for label, _ in groups %}
     case {{loop.index0}}:
         return {{ cstr(cid(label)) }};
-    {%- endfor %}
+    {% endfor %}
     default:
         return 0;
     }
@@ -195,7 +195,7 @@ int {{Identifier}}::parameter_order(unsigned index) noexcept
     {% for w in active + passive %}{% if w.order != -1 %}
     case {{loop.index0}}:
         return {{w.order}};
-    {%- endif %}{%- endfor %}
+    {% endif %}{% endfor %}
     default:
         return -1;
     }
@@ -207,7 +207,7 @@ const char *{{Identifier}}::parameter_label(unsigned index) noexcept
     {% for w in active + passive %}
     case {{loop.index0}}:
         return {{cstr(w.label)}};
-    {%- endfor %}
+    {% endfor %}
     default:
         return 0;
     }
@@ -219,7 +219,7 @@ const char *{{Identifier}}::parameter_short_label(unsigned index) noexcept
     {% for w in active + passive %}
     case {{loop.index0}}:
         return {{cstr(w.meta.abbrev|default(w.label)|truncate(16, true))}};
-    {%- endfor %}
+    {% endfor %}
     default:
         return 0;
     }
@@ -231,7 +231,7 @@ const char *{{Identifier}}::parameter_description(unsigned index) noexcept
     {% for w in active + passive %}{% if w.tooltip %}
     case {{loop.index0}}:
         return {{cstr(w.tooltip)}};
-    {%- endif %}{% endfor %}
+    {% endif %}{% endfor %}
     default:
         return 0;
     }
@@ -244,7 +244,7 @@ const char *{{Identifier}}::parameter_style(unsigned index) noexcept
     case {{loop.index0}}: {
         return {{cstr(w.style)}};
     }
-    {%- endif %}{% endfor %}
+    {% endif %}{% endfor %}
     default:
         return "knob";
     }
@@ -256,7 +256,7 @@ const char *{{Identifier}}::parameter_symbol(unsigned index) noexcept
     {% for w in active + passive %}
     case {{loop.index0}}:
         return {{cstr(w.symbol)}};
-    {%- endfor %}
+    {% endfor %}
     default:
         return 0;
     }
@@ -268,7 +268,7 @@ const char *{{Identifier}}::parameter_unit(unsigned index) noexcept
     {% for w in active + passive %}
     case {{loop.index0}}:
         return {{cstr(w.unit)}};
-    {%- endfor %}
+    {% endfor %}
     default:
         return 0;
     }
@@ -282,7 +282,7 @@ const {{Identifier}}::ParameterRange *{{Identifier}}::parameter_range(unsigned i
         static const ParameterRange range = { {{w.init}}, {{w.min}}, {{w.max}} };
         return &range;
     }
-    {%- endfor %}
+    {% endfor %}
     default:
         return 0;
     }
@@ -294,7 +294,7 @@ unsigned {{Identifier}}::parameter_scale_point_count(unsigned index) noexcept
     {% for w in active + passive %}{% if w.style in ["menu", "radio"] %}
     case {{loop.index0}}:
         return {{ w.entries | length }};
-    {%- endif %}{% endfor %}
+    {% endif %}{% endfor %}
     default:
         return 0;
     }
@@ -302,10 +302,10 @@ unsigned {{Identifier}}::parameter_scale_point_count(unsigned index) noexcept
 
 const {{Identifier}}::ParameterScalePoint *{{Identifier}}::parameter_scale_point(unsigned index, unsigned point) noexcept
 {
-    {% set ns = namespace(has_points=false) -%}
+    {% set ns = namespace(has_points=false) %}
     switch (index) {
     {% for w in active + passive %}{% if w.entries %}
-    {% set ns.has_points = true -%}
+    {% set ns.has_points = true %}
     case {{loop.index0}}:
         switch (point) {
         {% for label, value in w.entries %}
@@ -313,11 +313,11 @@ const {{Identifier}}::ParameterScalePoint *{{Identifier}}::parameter_scale_point
             static const ParameterScalePoint scale_point = { {{cstr(label)}}, {{value}} };
             return &scale_point;
         }
-        {%- endfor %}
+        {% endfor %}
         default:
             return 0;
         }
-    {%- endif %}{% endfor %}
+    {% endif %}{% endfor %}
     default:
         return 0;
     }
@@ -331,7 +331,7 @@ bool {{Identifier}}::parameter_is_trigger(unsigned index) noexcept
                                          w.meta.trigger is defined %}
     case {{loop.index0}}:
         return true;
-    {%- endif %}{% endfor %}
+    {% endif %}{% endfor %}
     default:
         return false;
     }
@@ -344,7 +344,7 @@ bool {{Identifier}}::parameter_is_boolean(unsigned index) noexcept
                                          w.meta.boolean is defined %}
     case {{loop.index0}}:
         return true;
-    {%- endif %}{% endfor %}
+    {% endif %}{% endfor %}
     default:
         return false;
     }
@@ -356,7 +356,7 @@ bool {{Identifier}}::parameter_is_enum(unsigned index) noexcept
     {% for w in active + passive %}{% if w.meta.style is defined and (w.meta.style.startswith("menu{") or w.meta.style.startswith("radio{")) %}
     case {{loop.index0}}:
         return true;
-    {%- endif %}{% endfor %}
+    {% endif %}{% endfor %}
     default:
         return false;
     }
@@ -370,7 +370,7 @@ bool {{Identifier}}::parameter_is_integer(unsigned index) noexcept
                                          w.meta.boolean is defined %}
     case {{loop.index0}}:
         return true;
-    {%- endif %}{% endfor %}
+    {% endif %}{% endfor %}
     default:
         return false;
     }
@@ -382,7 +382,7 @@ bool {{Identifier}}::parameter_is_logarithmic(unsigned index) noexcept
     {% for w in active + passive %}{% if w.scale == "log" %}
     case {{loop.index0}}:
         return true;
-    {%- endif %}{% endfor %}
+    {% endif %}{% endfor %}
     default:
         return false;
     }
@@ -395,7 +395,7 @@ float {{Identifier}}::get_parameter(unsigned index) const noexcept
     {% for w in active + passive %}
     case {{loop.index0}}:
         return dsp.{{w.varname}};
-    {%- endfor %}
+    {% endfor %}
     default:
         (void)dsp;
         return 0;
@@ -410,7 +410,7 @@ void {{Identifier}}::set_parameter(unsigned index, float value) noexcept
     case {{loop.index0}}:
         dsp.{{w.varname}} = value;
         break;
-    {%- endfor %}
+    {% endfor %}
     default:
         (void)dsp;
         (void)value;
@@ -424,6 +424,7 @@ float {{Identifier}}::get_{{w.symbol}}() const noexcept
     {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
     return dsp.{{w.varname}};
 }
+
 {% endfor %}
 {% for w in active %}
 void {{Identifier}}::set_{{w.symbol}}(float value) noexcept
@@ -431,7 +432,8 @@ void {{Identifier}}::set_{{w.symbol}}(float value) noexcept
     {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
     dsp.{{w.varname}} = value;
 }
+
 {% endfor %}
 
-{% block ImplementationEpilogue -%}
-{%- endblock %}
+{% block ImplementationEpilogue %}
+{% endblock %}
