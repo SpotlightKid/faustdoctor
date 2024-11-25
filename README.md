@@ -74,9 +74,7 @@ the [LICENSE.md](./LICENSE.md) file for details.
 
 ## Release notes
 
-**0.1.0**
-
-- Initial release (forked from [faustpp] 1.0.0)
+See the [CHANGELOG.md](./CHANGELOG.md) file.
 
 
 [documentation]: https://spotlightkid.github.io/faustdoctor

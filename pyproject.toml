@@ -37,5 +37,5 @@ include = [
     "examples",
     "faustdoctor",
     "thirdparty",
+    "CHANGELOG.md"
 ]
-
