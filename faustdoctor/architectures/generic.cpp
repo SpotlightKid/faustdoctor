@@ -243,7 +243,7 @@ const char *{{Identifier}}::parameter_symbol(unsigned index) noexcept
     switch (index) {
     {% for w in active + passive %}
     case {{loop.index0}}:
-        return {{cstr(w.meta.symbol)}};
+        return {{cstr(w.symbol)}};
     {%- endfor %}
     default:
         return 0;
@@ -407,14 +407,14 @@ void {{Identifier}}::set_parameter(unsigned index, float value) noexcept
 }
 
 {% for w in active + passive %}
-float {{Identifier}}::get_{{w.meta.symbol}}() const noexcept
+float {{Identifier}}::get_{{w.symbol}}() const noexcept
 {
     {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
     return dsp.{{w.varname}};
 }
 {% endfor %}
 {% for w in active %}
-void {{Identifier}}::set_{{w.meta.symbol}}(float value) noexcept
+void {{Identifier}}::set_{{w.symbol}}(float value) noexcept
 {
     {{classname}} &dsp = static_cast<{{classname}} &>(*fDsp);
     dsp.{{w.varname}} = value;

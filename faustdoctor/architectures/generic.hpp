@@ -48,7 +48,7 @@ public:
     enum { NumParameters = {{active|length + passive|length}} };
 
     enum Parameter {
-        {% for w in active + passive %}p_{{w.meta.symbol}},
+        {% for w in active + passive %}p_{{w.symbol}},
         {% endfor %}
     };
 
@@ -85,10 +85,10 @@ public:
     void set_parameter(unsigned index, float value) noexcept;
 
     {%- for w in active + passive %}
-    float get_{{w.meta.symbol}}() const noexcept;
+    float get_{{w.symbol}}() const noexcept;
     {%- endfor %}
     {%- for w in active %}
-    void set_{{w.meta.symbol}}(float value) noexcept;
+    void set_{{w.symbol}}(float value) noexcept;
     {%- endfor %}
 
 public:

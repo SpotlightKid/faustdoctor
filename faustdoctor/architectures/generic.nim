@@ -30,8 +30,8 @@ proc get_parameter*(dsp: ptr {{class_name}}, index: cuint): cfloat {.importc}
 proc set_parameter*(dsp: ptr {{class_name}}, index: cuint, value: cfloat) {.importc}
 
 {% for w in active + passive %}
-proc get_{{w.meta.symbol}}*(dsp: ptr {{class_name}}): cfloat {.importc}
+proc get_{{w.symbol}}*(dsp: ptr {{class_name}}): cfloat {.importc}
 {% endfor %}
 {% for w in active %}
-proc set_{{w.meta.symbol}}*(dsp: ptr {{class_name}}, value: cfloat) {.importc}
+proc set_{{w.symbol}}*(dsp: ptr {{class_name}}, value: cfloat) {.importc}
 {% endfor %}

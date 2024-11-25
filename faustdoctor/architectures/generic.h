@@ -108,7 +108,7 @@ const char *parameter_symbol(unsigned index) {
     switch (index) {
     {% for w in active + passive %}
     case {{loop.index0}}:
-        return {{cstr(w.meta.symbol)}};
+        return {{cstr(w.symbol)}};
     {% endfor %}
     default:
         return "";
@@ -225,12 +225,12 @@ void set_parameter({{classname}}* dsp, unsigned index, FAUSTFLOAT value) {
 }
 
 {% for w in active + passive %}
-FAUSTFLOAT get_{{w.meta.symbol}}({{classname}}* dsp) {
+FAUSTFLOAT get_{{w.symbol}}({{classname}}* dsp) {
     return dsp->{{w.varname}};
 }
 {% endfor %}
 {% for w in active %}
-void set_{{w.meta.symbol}}({{classname}}* dsp, FAUSTFLOAT value) {
+void set_{{w.symbol}}({{classname}}* dsp, FAUSTFLOAT value) {
     dsp->{{w.varname}} = value;
 }
 {% endfor %}
