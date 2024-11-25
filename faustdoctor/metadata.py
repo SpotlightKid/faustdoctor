@@ -194,7 +194,7 @@ def extract_widget(node: ET.Element, is_active: bool, md: Metadata) -> Widget:
         elif key == "symbol":
             w.symbol = mangle(value)
         elif key == "tooltip":
-            w.tooltip = value
+            w.tooltip = re.sub(r'\s+', ' ', value)
         elif key == "unit":
             w.unit = value
 

@@ -225,6 +225,18 @@ const char *{{Identifier}}::parameter_short_label(unsigned index) noexcept
     }
 }
 
+const char *{{Identifier}}::parameter_description(unsigned index) noexcept
+{
+    switch (index) {
+    {% for w in active + passive %}{% if w.tooltip %}
+    case {{loop.index0}}:
+        return {{cstr(w.tooltip)}};
+    {%- endif %}{% endfor %}
+    default:
+        return 0;
+    }
+}
+
 const char *{{Identifier}}::parameter_style(unsigned index) noexcept
 {
     switch (index) {

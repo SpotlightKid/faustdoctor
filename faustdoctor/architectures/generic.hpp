@@ -69,6 +69,7 @@ public:
     static const char *parameter_group_symbol(unsigned group_id) noexcept;
     static const char *parameter_label(unsigned index) noexcept;
     static const char *parameter_short_label(unsigned index) noexcept;
+    static const char *parameter_description(unsigned index) noexcept;
     static const char *parameter_style(unsigned index) noexcept;
     static const char *parameter_symbol(unsigned index) noexcept;
     static const char *parameter_unit(unsigned index) noexcept;
