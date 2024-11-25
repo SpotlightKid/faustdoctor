@@ -8,6 +8,7 @@ dynamic = ["version"]
 description = "A post-processor for faust giving more flexibility at source generation"
 author = [
   { name="Jean Pierre Cimalando" },
+  { name="Christopher Arndt", email="info@chrisarndt.de" },
 ]
 maintainer = [
   { name="Christopher Arndt", email="info@chrisarndt.de" },
