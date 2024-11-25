@@ -5,7 +5,7 @@
 
 = User manual
 Jean Pierre Cimalando, Christopher Arndt
-v0.1.0
+v0.2.0
 :toc:
 
 [.Lead]
