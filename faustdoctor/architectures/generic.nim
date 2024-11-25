@@ -1,3 +1,8 @@
+{% block NimPrologue %}
+{% if fdrversioninfo is undefined or fdrversioninfo < (0, 2, 0) %}
+{{fail("This template is not compatible with faustdoctor version < 0.2.0.")}}
+{% endif %}
+{% endblock %}
 {.compile: "{{classname}}.c".}
 
 type

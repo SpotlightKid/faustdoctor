@@ -15,6 +15,9 @@
 {% endblock %}
 
 {% block HeaderPrologue %}
+{% if fdrversioninfo is undefined or fdrversioninfo < (0, 2, 0) %}
+{{fail("This template is not compatible with faustdoctor version < 0.2.0.")}}
+{% endif %}
 {% if not (Identifier is defined and
            Identifier == cid(Identifier)) %}
 {{fail("`Identifier` is undefined or invalid.")}}

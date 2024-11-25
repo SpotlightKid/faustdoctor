@@ -10,6 +10,7 @@ from typing import Any, Optional, TextIO, List, Dict, Tuple
 
 from jinja2 import Environment, FileSystemLoader
 
+from . import version_info
 from .metadata import Metadata, WidgetActive, Widget, WidgetType, WidgetScale
 from .utility import cstrlit, mangle
 
@@ -41,6 +42,7 @@ def make_global_environment(md: Metadata, defines: Dict[str, str]) -> Dict[str, 
     context["license"] = md.license
     context["version"] = md.version
     context["faustversion"] = md.faustversion
+    context["fdrversioninfo"] = version_info
     context["classname"] = md.classname
     context["filename"] = md.filename
     context["inputs"] = int(md.inputs)

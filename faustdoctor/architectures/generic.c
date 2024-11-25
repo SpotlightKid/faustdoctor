@@ -15,6 +15,9 @@
 {% endblock %}
 
 {% block ImplementationPrologue %}
+{% if fdrversioninfo is undefined or fdrversioninfo < (0, 2, 0) %}
+{{fail("This template is not compatible with faustdoctor version < 0.2.0.")}}
+{% endif %}
 {% endblock %}
 {% block ImplementationIncludeHeader %}
 #include "{{classname}}.h"

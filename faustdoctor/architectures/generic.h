@@ -14,6 +14,11 @@
 //------------------------------------------------------------------------------
 {% endblock %}
 
+{% block HeaderPrologue %}
+{% if fdrversioninfo is undefined or fdrversioninfo < (0, 2, 0) %}
+{{fail("This template is not compatible with faustdoctor version < 0.2.0.")}}
+{% endif %}
+{% endblock %}
 #ifndef  __{{classname}}_H__
 #define  __{{classname}}_H__
 
