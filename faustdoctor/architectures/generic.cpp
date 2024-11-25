@@ -181,7 +181,7 @@ const char *{{Identifier}}::parameter_group_symbol(unsigned group_id) noexcept
     switch (group_id) {
     {% for label, _ in groups %}
     case {{loop.index0}}:
-        return {{ cstr(label.lower()) }};
+        return {{ cstr(cid(label)) }};
     {%- endfor %}
     default:
         return 0;
