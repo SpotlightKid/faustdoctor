@@ -153,7 +153,7 @@ def do_cmdline(args: List[str]) -> CmdArgs:
 def find_template_file(name: str) -> str:
     # if missing, search in package resources
     if not os.path.isfile(name):
-        pkgname : str = __name__[0:name.rindex(".")]
+        pkgname : str = __name__.split(".", 1)[0]
         with importlib.resources.path(pkgname, "architectures") as arcdir:
             path : str = os.path.join(arcdir, name)
             if os.path.isfile(path):
