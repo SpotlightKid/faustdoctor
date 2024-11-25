@@ -1,17 +1,19 @@
-{.compile: "{{class_name}}.c".}
+{.compile: "{{classname}}.c".}
 
 type
-    {{class_name}}* = object
+    {{classname}}* = object
+
     ParameterRange* = object
         init*, min*, max*: cfloat
+
     SampleBuffer* = UncheckedArray[cfloat]
 
 
-proc new{{class_name}}*(): ptr {{class_name}} {.importc.}
-proc delete{{class_name}}*(dsp: ptr {{class_name}}) {.importc.}
-proc init{{class_name}}*(dsp: ptr {{class_name}}, sample_rate: cint) {.importc.}
-proc instanceClear{{class_name}}*(dsp: ptr {{class_name}}) {.importc.}
-proc compute{{class_name}}*(dsp: ptr {{class_name}}, count: cint, inputs, outputs: ptr ptr SampleBuffer) {.importc.}
+proc new{{classname}}*(): ptr {{classname}} {.importc.}
+proc delete{{classname}}*(dsp: ptr {{classname}}) {.importc.}
+proc init{{classname}}*(dsp: ptr {{classname}}, sample_rate: cint) {.importc.}
+proc instanceClear{{classname}}*(dsp: ptr {{classname}}) {.importc.}
+proc compute{{classname}}*(dsp: ptr {{classname}}, count: cint, inputs, outputs: ptr ptr SampleBuffer) {.importc.}
 
 proc parameter_range*(index: cuint): ptr ParameterRange {.importc.}
 proc parameter_group*(index: cuint): cint {.importc}
@@ -26,12 +28,12 @@ proc parameter_style*(index: cuint): cstring {.importc}
 proc parameter_symbol*(index: cuint): cstring {.importc}
 proc parameter_unit*(index: cuint): cstring {.importc}
 
-proc get_parameter*(dsp: ptr {{class_name}}, index: cuint): cfloat {.importc}
-proc set_parameter*(dsp: ptr {{class_name}}, index: cuint, value: cfloat) {.importc}
+proc get_parameter*(dsp: ptr {{classname}}, index: cuint): cfloat {.importc}
+proc set_parameter*(dsp: ptr {{classname}}, index: cuint, value: cfloat) {.importc}
 
 {% for w in active + passive %}
-proc get_{{w.symbol}}*(dsp: ptr {{class_name}}): cfloat {.importc}
+proc get_{{w.symbol}}*(dsp: ptr {{classname}}): cfloat {.importc}
 {% endfor %}
 {% for w in active %}
-proc set_{{w.symbol}}*(dsp: ptr {{class_name}}, value: cfloat) {.importc}
+proc set_{{w.symbol}}*(dsp: ptr {{classname}}, value: cfloat) {.importc}
 {% endfor %}
