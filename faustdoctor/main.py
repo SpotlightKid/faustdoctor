@@ -14,6 +14,7 @@ from typing import Optional, TextIO, List, Dict
 from tempfile import NamedTemporaryFile
 from contextlib import ExitStack
 
+from . import __version__
 from .call_faust import FaustResult, FaustVersion, call_faust, ensure_faust_version, get_faust_version
 from .fixes import add_namespace, apply_workarounds, lift_structs, remove_preamble_and_epilog
 from .metadata import Metadata, extract_metadata
@@ -121,6 +122,7 @@ def do_cmdline(args: List[str]) -> CmdArgs:
     parser.add_argument("-o", "--output", dest="outfile", metavar="PATH", help="output file")
     parser.add_argument("-D", "--define", dest="defines", metavar="NAME=VAL", action="append", help="template context variable definition, in the form name=value")
     parser.add_argument("-X", "--faustarg", dest="faustargs", metavar="ARG", action="append", help="extra faust compiler argument")
+    parser.add_argument("-v", "--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("dspfile", help="source file")
 
     result: Namespace = parser.parse_args(args[1:])
